@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Dictionary>
+	<Words>
+		<Recognized>
+			<Word>Nist</Word>
+			<Word>Ntp</Word>
+			<Word>Yort</Word>
+		</Recognized>
+	</Words>
+	<Acronyms>
+		<CasingExceptions>
+			<Acronym>iOS</Acronym>
+			<Acronym>WPSL</Acronym>
+		</CasingExceptions>
+	</Acronyms>
+</Dictionary>

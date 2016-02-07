@@ -1,0 +1,196 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Yort.Ntp
+{
+	/// <summary>
+	/// Use instances of this class to request an up to date, accurate time from an NTP server.
+	/// </summary>
+	public partial class NtpClient
+	{
+
+		#region Fields
+
+		private readonly string _ServerAddress;
+
+		#endregion
+
+		#region Events
+
+		/// <summary>
+		/// Raised when a new time is received from an NTP server.
+		/// </summary>
+		/// <seealso cref="NtpTimeReceivedEventArgs"/>
+		/// <seealso cref="OnTimeReceived(DateTime)"/>
+		public event EventHandler<NtpTimeReceivedEventArgs> TimeReceived;
+
+		/// <summary>
+		/// Raised when an a network error occurs trying to request an updated time from an NTP server.
+		/// </summary>
+		/// <seealso cref="NtpNetworkErrorEventArgs"/>
+		/// <seealso cref="OnErrorOccurred(NtpNetworkException)"/>
+		public event EventHandler<NtpNetworkErrorEventArgs> ErrorOccurred;
+
+		#endregion
+
+		#region Constructors
+
+		/// <summary>
+		/// Default constructor. Uses the <see cref="KnownNtpServers.TimeANist"/> server as a default.
+		/// </summary>
+		public NtpClient() : this(KnownNtpServers.TimeANist)
+		{
+		}
+
+		/// <summary>
+		/// Full constructor.
+		/// </summary>
+		/// <param name="serverAddress">the name or address the NTP server to be used.</param>
+		public NtpClient(string serverAddress)
+		{
+			if (serverAddress == null) throw new ArgumentNullException(nameof(serverAddress));
+			if (String.IsNullOrWhiteSpace(serverAddress)) throw new ArgumentException(nameof(serverAddress) + " cannot be empty or whitespace.", nameof(serverAddress));
+
+			_ServerAddress = serverAddress;
+		}
+
+		#endregion
+
+		#region Public Properties
+
+		/// <summary>
+		/// Returns the address of the NTP server this client obtains times from.
+		/// </summary>
+		/// <remarks>
+		/// <para>The server address used is provided via the constructor.</para>
+		/// </remarks>
+		/// <seealso cref="NtpClient()"/>
+		/// <seealso cref="NtpClient(string)"/>
+		public string ServerAddress
+		{
+			get
+			{
+				return _ServerAddress;
+			}
+		}
+
+		#endregion
+
+		#region Public Methods
+
+		/// <summary>
+		/// Asynchronously requests a time from the NTP server specified in the constructor. When a time is received the <seealso cref="TimeReceived" /> event is raised with the result, otherwise the <seealso cref="ErrorOccurred"/> event should be raised containing details of the failure.
+		/// </summary>
+		/// <remarks>
+		/// <para>Note, events raised by this class may not (and probably will not) occur on the same thread that called this method. If the event handlers call UI components, dispatched invoke may be required.</para>
+		/// </remarks>
+		/// <seealso cref="OnTimeReceived(DateTime)"/>
+		/// <seealso cref="OnErrorOccurred(NtpNetworkException)"/>
+		public void BeginRequestTime()
+		{
+			SendTimeRequest();
+		}
+
+#if SUPPORTS_TASKASYNC
+		/// <summary>
+		/// Returns an awaitable task whose result is the current time from the NTP server specified in the constructor.
+		/// </summary>
+		public System.Threading.Tasks.Task<DateTime> RequestTimeAsync()
+		{
+			var tcs = new System.Threading.Tasks.TaskCompletionSource<DateTime>();
+			var client = new NtpClient(_ServerAddress);
+
+			var timeReceivedHandler = new EventHandler<NtpTimeReceivedEventArgs>(
+				(sender, args) => 
+				{
+					tcs.SetResult(args.CurrentTime);
+				}
+			);
+			var errorOccurredHandler = new EventHandler<NtpNetworkErrorEventArgs>(
+				(sender, args) => 
+				{
+					tcs.SetException(args.Exception);
+				}
+			);
+
+			client.TimeReceived += timeReceivedHandler;
+			client.ErrorOccurred += errorOccurredHandler;
+			client.BeginRequestTime();
+
+			var retVal = tcs.Task;
+			tcs.Task.ContinueWith(
+				(pt) =>
+				{
+					client.TimeReceived -= timeReceivedHandler;
+					client.ErrorOccurred -= errorOccurredHandler;
+				}
+			);
+			return retVal;
+		}
+
+#endif
+
+		/// <summary>
+		/// Raises the <seealso cref="TimeReceived"/> event.
+		/// </summary>
+		/// <remarks>
+		/// <para>This event may be raised on a different thread than called the <see cref="BeginRequestTime"/> method. If the event handler refers to UI, COM or other components that require thread affinity then dispatched invoke may be required.</para>
+		/// <para>THe time returned is a UTC time.</para>
+		/// </remarks>
+		/// <param name="time">The date and time received from the NTP server.</param>
+		/// <seealso cref="TimeReceived"/>
+		protected void OnTimeReceived(DateTime time)
+		{
+			TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(time));
+		}
+
+		/// <summary>
+		/// Raises the <see cref="ErrorOccurred"/> event.
+		/// </summary>
+		/// <remarks>
+		/// <para>This event may be raised on a different thread than called the <see cref="BeginRequestTime"/> method. If the event handler refers to UI, COM or other components that require thread affinity then dispatched invoke may be required.</para>
+		/// </remarks>
+		/// <param name="exception">A <see cref="NtpNetworkException"/> describing the error.</param>
+		protected virtual void OnErrorOccurred(NtpNetworkException exception)
+		{
+			ErrorOccurred?.Invoke(this, new NtpNetworkErrorEventArgs(exception));
+		}
+
+		#endregion
+
+		#region Private/Partial Methods
+
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
+		partial void SendTimeRequest();
+
+		#endregion
+
+		#region Event Handlers
+
+		private void ConvertBufferToCurrentTime(byte[] buffer)
+		{
+			ulong hTime = 0, lTime = 0;
+
+			for (var i = 40; i <= 43; ++i)
+			{
+				hTime = hTime << 8 | buffer[i];
+			}
+			for (var i = 44; i <= 47; ++i)
+			{
+				lTime = lTime << 8 | buffer[i];
+			}
+
+			ulong milliseconds = (hTime * 1000 + (lTime * 1000) / 0x100000000L);
+
+			var timeSpan = TimeSpan.FromTicks((long)milliseconds * TimeSpan.TicksPerMillisecond);
+			var currentTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) + timeSpan;
+
+			OnTimeReceived(currentTime);
+		}
+
+		#endregion
+
+	}
+}

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ea7b1b93-33e5-4403-ad28-f1750837cc1b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Yort.Ntp</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfoCommon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)KnownNtpServers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NtpClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NtpNetworkErrorEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NtpNetworkException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TimeReceivedEventArgs.cs" />
+  </ItemGroup>
+</Project>
