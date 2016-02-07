@@ -1,1 +1,1 @@
-The icon for this project is [[Computer Time by Arthur Shlain from the Noun Project.](https://thenounproject.com/search/?q=computer+time&i=87580)] and is used under the [[Creative Commons License](http://creativecommons.org/licenses/by/3.0/us/)].
+The icon for this project is [[Computer Time by Arthur Shlain from the Noun Project](https://thenounproject.com/search/?q=computer+time&i=87580)] and is used under the [[Creative Commons License](http://creativecommons.org/licenses/by/3.0/us/)].
