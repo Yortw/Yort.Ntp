@@ -18,13 +18,14 @@ namespace Yort.Ntp
 		async partial void SendTimeRequest()
 		{
 			var socket = new Windows.Networking.Sockets.DatagramSocket();
+			AsyncUdpResult asyncResult = null;
 			try
 			{
 				var buffer = new byte[48];
 				buffer[0] = 0x1B;
 
 				socket.MessageReceived += Socket_Completed_Receive;
-				var asyncResult = new AsyncUdpResult(socket);
+				asyncResult = new AsyncUdpResult(socket);
 				await socket.BindEndpointAsync(new Windows.Networking.HostName(_ServerAddress), "123").AsTask().ContinueWith(
 					async (pt) =>
 					{
@@ -38,6 +39,7 @@ namespace Yort.Ntp
 							await udpWriter.StoreAsync().AsTask().ConfigureAwait(false);
 
 							asyncResult.Wait(OneSecond);
+							asyncResult?.Dispose();
 						}
 					}
 				).ConfigureAwait(false);
@@ -46,11 +48,13 @@ namespace Yort.Ntp
 			{
 				socket.MessageReceived -= this.Socket_Completed_Receive;
 				socket?.Dispose();
+				asyncResult?.Dispose();
 
 				OnErrorOccurred(ExceptionToNtpNetworkException(ex));
 			}
 		}
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
 		private void Socket_Completed_Receive(Windows.Networking.Sockets.DatagramSocket sender, Windows.Networking.Sockets.DatagramSocketMessageReceivedEventArgs args)
 		{
 			try
@@ -77,7 +81,7 @@ namespace Yort.Ntp
 			return new NtpNetworkException(ex.Message, (int)SocketError.GetStatus(ex.HResult), ex);
 		}
 
-		private class AsyncUdpResult
+		private sealed class AsyncUdpResult : IDisposable
 		{
 			private DatagramSocket _Socket;
 			private System.Threading.AutoResetEvent _DataArrivedSignal;
@@ -97,6 +101,11 @@ namespace Yort.Ntp
 			public void Wait(TimeSpan timeout)
 			{
 				_DataArrivedSignal.WaitOne(timeout);
+			}
+
+			public void Dispose()
+			{
+				_DataArrivedSignal?.Dispose();
 			}
 		}
 	}
