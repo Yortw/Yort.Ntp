@@ -95,17 +95,38 @@ namespace Yort.Ntp
 
 			private void _Socket_MessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
 			{
-				_DataArrivedSignal.Set();
+				SafeSetSignal();
+			}
+
+			private void SafeSetSignal()
+			{
+				try
+				{
+					_DataArrivedSignal?.Set();
+				}
+				catch (ObjectDisposedException)
+				{
+				}
 			}
 
 			public void Wait(TimeSpan timeout)
 			{
-				_DataArrivedSignal.WaitOne(timeout);
+				try
+				{
+					_DataArrivedSignal?.WaitOne(timeout);
+				}
+				catch (ObjectDisposedException) { }
 			}
 
 			public void Dispose()
 			{
-				_DataArrivedSignal?.Dispose();
+				try
+				{
+					var signal = _DataArrivedSignal;
+					_DataArrivedSignal = null;
+					signal?.Dispose();
+				}
+				catch (ObjectDisposedException) { }
 			}
 		}
 	}
