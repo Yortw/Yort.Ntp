@@ -23,6 +23,9 @@ Currently;
     PM> Install-Package Yort.Ntp.Potrable
 ```
 
+[![NuGet Status](http://img.shields.io/nuget/v/Yort.Ntp.Portable.svg?style=flat)](https://www.nuget.org/packages/Yort.Ntp.Portable)
+[![Nuget](https://img.shields.io/nuget/dt/Yort.Ntp.Portable.svg)](https://www.nuget.org/packages/Yort.Ntp.Portable)
+
 ## Samples
 For platforms that support task based async;
 ```C#
