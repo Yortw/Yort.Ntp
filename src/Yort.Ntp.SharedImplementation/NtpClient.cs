@@ -27,10 +27,14 @@ namespace Yort.Ntp
 		public event EventHandler<NtpTimeReceivedEventArgs> TimeReceived;
 
 		/// <summary>
-		/// Raised when an a network error occurs trying to request an updated time from an NTP server.
+		/// Raised when an error occurs trying to request an updated time from an NTP server.
 		/// </summary>
+		/// <remarks>
+		/// <para>The <see cref="NtpNetworkErrorEventArgs.Exception"/> property will usually contain a <see cref="NtpNetworkException"/>, indicating the library is working properly but an error (probably network related) occurred. Other exceptions types are possible, and *may* indicate a bug or poor exception handling within the library.</para>
+		/// </remarks>
 		/// <seealso cref="NtpNetworkErrorEventArgs"/>
-		/// <seealso cref="OnErrorOccurred(NtpNetworkException)"/>
+		/// <seealso cref="NtpNetworkException"/>
+		/// <seealso cref="OnErrorOccurred(Exception)"/>
 		public event EventHandler<NtpNetworkErrorEventArgs> ErrorOccurred;
 
 		#endregion
@@ -85,9 +89,11 @@ namespace Yort.Ntp
 		/// </summary>
 		/// <remarks>
 		/// <para>Note, events raised by this class may not (and probably will not) occur on the same thread that called this method. If the event handlers call UI components, dispatched invoke may be required.</para>
+		/// <para>This method may throw exceptions (most likely a <seealso cref="NtpNetworkException"/> if an error occurs trying to connect/bind to the network endpoint. Exception handling in client code is recommended.</para>
 		/// </remarks>
+		/// <seealso cref="NtpNetworkException"/>
 		/// <seealso cref="OnTimeReceived(DateTime)"/>
-		/// <seealso cref="OnErrorOccurred(NtpNetworkException)"/>
+		/// <seealso cref="OnErrorOccurred(Exception)"/>
 		public void BeginRequestTime()
 		{
 			SendTimeRequest();
@@ -97,6 +103,10 @@ namespace Yort.Ntp
 		/// <summary>
 		/// Returns an awaitable task whose result is the current time from the NTP server specified in the constructor.
 		/// </summary>
+		/// <remarks>
+		/// <para>This method may throw exceptions (most likely a <seealso cref="NtpNetworkException"/> if an error occurs trying to connect/bind to the network endpoint. Exception handling in client code is recommended.</para>
+		/// </remarks>
+		/// <seealso cref="NtpNetworkException"/>
 		public System.Threading.Tasks.Task<DateTime> RequestTimeAsync()
 		{
 			var tcs = new System.Threading.Tasks.TaskCompletionSource<DateTime>();
@@ -111,13 +121,13 @@ namespace Yort.Ntp
 			var errorOccurredHandler = new EventHandler<NtpNetworkErrorEventArgs>(
 				(sender, args) => 
 				{
-					tcs.SetException(args.Exception);
+					if (!tcs.Task.IsCanceled && !tcs.Task.IsCompleted)
+						tcs.SetException(args.Exception);
 				}
 			);
 
 			client.TimeReceived += timeReceivedHandler;
 			client.ErrorOccurred += errorOccurredHandler;
-			client.BeginRequestTime();
 
 			var retVal = tcs.Task;
 			tcs.Task.ContinueWith(
@@ -127,6 +137,9 @@ namespace Yort.Ntp
 					client.ErrorOccurred -= errorOccurredHandler;
 				}
 			);
+
+			client.BeginRequestTime();
+
 			return retVal;
 		}
 
@@ -137,7 +150,7 @@ namespace Yort.Ntp
 		/// </summary>
 		/// <remarks>
 		/// <para>This event may be raised on a different thread than called the <see cref="BeginRequestTime"/> method. If the event handler refers to UI, COM or other components that require thread affinity then dispatched invoke may be required.</para>
-		/// <para>THe time returned is a UTC time.</para>
+		/// <para>The time returned is a UTC time.</para>
 		/// </remarks>
 		/// <param name="time">The date and time received from the NTP server.</param>
 		/// <seealso cref="TimeReceived"/>
@@ -152,8 +165,8 @@ namespace Yort.Ntp
 		/// <remarks>
 		/// <para>This event may be raised on a different thread than called the <see cref="BeginRequestTime"/> method. If the event handler refers to UI, COM or other components that require thread affinity then dispatched invoke may be required.</para>
 		/// </remarks>
-		/// <param name="exception">A <see cref="NtpNetworkException"/> describing the error.</param>
-		protected virtual void OnErrorOccurred(NtpNetworkException exception)
+		/// <param name="exception">A <see cref="System.Exception"/> derived instance describing the error.</param>
+		protected virtual void OnErrorOccurred(Exception exception)
 		{
 			ErrorOccurred?.Invoke(this, new NtpNetworkErrorEventArgs(exception));
 		}

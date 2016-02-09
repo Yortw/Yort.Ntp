@@ -9,13 +9,13 @@ namespace Yort.Ntp
 	/// </summary>
 	public class NtpNetworkErrorEventArgs : EventArgs
 	{
-		private readonly NtpNetworkException _Exception;
+		private readonly Exception _Exception;
 
 		/// <summary>
 		/// Full constructor.
 		/// </summary>
 		/// <param name="exception">A <see cref="Exception"/> containing details of the network or socket error that occurred.</param>
-		public NtpNetworkErrorEventArgs(NtpNetworkException exception)
+		public NtpNetworkErrorEventArgs(Exception exception)
 		{
 			_Exception = exception;
 		}
@@ -23,7 +23,7 @@ namespace Yort.Ntp
 		/// <summary>
 		/// Returns a <see cref="Exception"/> containing details of the network or socket error that occurred.
 		/// </summary>
-		public NtpNetworkException Exception
+		public Exception Exception
 		{
 			get
 			{

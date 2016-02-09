@@ -2,12 +2,12 @@
 <package >
   <metadata>
     <id>Yort.Ntp.Portable</id>
-    <version>1.0.0</version>
+    <version>1.0.2</version>
     <authors>Yortw</authors>
     <owners>Troy Willmot</owners>
 		<licenseUrl>https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md</licenseUrl>
-		<projectUrl>https://github.com/Yortw/Yort.Ntp/</projectUrl>
-		<iconUrl>https://github.com/Yortw/Yort.Ntp/blob/master/icon.png</iconUrl>
+		<projectUrl>https://github.com/Yortw/Yort.Ntp</projectUrl>
+		<iconUrl>https://raw.githubusercontent.com/Yortw/Yort.Ntp/master/icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross platform NTP client for retrieving the current time from internet NTP servers.</description>
     <releaseNotes>Initial release.</releaseNotes>

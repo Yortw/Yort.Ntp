@@ -26,31 +26,38 @@ namespace Yort.Ntp
 
 				socket.MessageReceived += Socket_Completed_Receive;
 				asyncResult = new AsyncUdpResult(socket);
-				await socket.BindEndpointAsync(new Windows.Networking.HostName(_ServerAddress), "123").AsTask().ContinueWith(
-					async (pt) =>
-					{
-						await socket.ConnectAsync(new Windows.Networking.HostName(_ServerAddress), "123").AsTask().ConfigureAwait(false);
-						using (var udpWriter = new DataWriter(socket.OutputStream))
-						{
-							udpWriter.WriteBytes(buffer);
-							await udpWriter.StoreAsync().AsTask().ConfigureAwait(false);
+			
+				await socket.ConnectAsync(new Windows.Networking.HostName(_ServerAddress), "123").AsTask().ConfigureAwait(false);
 
-							udpWriter.WriteBytes(buffer);
-							await udpWriter.StoreAsync().AsTask().ConfigureAwait(false);
+				using (var udpWriter = new DataWriter(socket.OutputStream))
+				{
+					udpWriter.WriteBytes(buffer);
+					await udpWriter.StoreAsync().AsTask().ConfigureAwait(false);
 
-							asyncResult.Wait(OneSecond);
-							asyncResult?.Dispose();
-						}
-					}
-				).ConfigureAwait(false);
+					udpWriter.WriteBytes(buffer);
+					await udpWriter.StoreAsync().AsTask().ConfigureAwait(false);
+
+					asyncResult.Wait(OneSecond);
+				}
 			}
 			catch (Exception ex)
 			{
-				socket.MessageReceived -= this.Socket_Completed_Receive;
-				socket?.Dispose();
+				try
+				{
+					if (socket != null)
+					{
+						socket.MessageReceived -= this.Socket_Completed_Receive;
+						socket.Dispose();
+					}
+				}
+				finally
+				{
+					OnErrorOccurred(ExceptionToNtpNetworkException(ex));
+				}
+			}
+			finally
+			{
 				asyncResult?.Dispose();
-
-				OnErrorOccurred(ExceptionToNtpNetworkException(ex));
 			}
 		}
 
@@ -81,16 +88,18 @@ namespace Yort.Ntp
 			return new NtpNetworkException(ex.Message, (int)SocketError.GetStatus(ex.HResult), ex);
 		}
 
+		#region Private Classes
+
 		private sealed class AsyncUdpResult : IDisposable
 		{
 			private DatagramSocket _Socket;
-			private System.Threading.AutoResetEvent _DataArrivedSignal;
+			private System.Threading.ManualResetEvent _DataArrivedSignal;
 
-			public AsyncUdpResult(DatagramSocket socket)
+			internal AsyncUdpResult(DatagramSocket socket)
 			{	
 				_Socket = socket;
 				_Socket.MessageReceived += _Socket_MessageReceived;
-				_DataArrivedSignal = new System.Threading.AutoResetEvent(false);
+				_DataArrivedSignal = new System.Threading.ManualResetEvent(false);
 			}
 
 			private void _Socket_MessageReceived(DatagramSocket sender, DatagramSocketMessageReceivedEventArgs args)
@@ -113,7 +122,11 @@ namespace Yort.Ntp
 			{
 				try
 				{
-					_DataArrivedSignal?.WaitOne(timeout);
+					if (!(_DataArrivedSignal?.WaitOne(timeout) ?? false))
+					{
+						var te = new TimeoutException("No response from NTP server.");
+						throw new NtpNetworkException(te.Message, (int)SocketErrorStatus.OperationAborted, te);
+					}
 				}
 				catch (ObjectDisposedException) { }
 			}
@@ -129,5 +142,8 @@ namespace Yort.Ntp
 				catch (ObjectDisposedException) { }
 			}
 		}
+
+		#endregion
+
 	}
 }

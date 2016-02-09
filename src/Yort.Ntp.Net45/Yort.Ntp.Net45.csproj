@@ -17,7 +17,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SUPPORTS_TASKASYNC;SUPPORTS_SERIALISATION</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;SUPPORTS_TASKASYNC;SUPPORTS_SERIALISATION;SUPPORTS_TASKDELAY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Yort.Ntp.Net45.XML</DocumentationFile>
@@ -28,7 +28,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SUPPORTS_TASKASYNC;SUPPORTS_SERIALISATION</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;SUPPORTS_TASKASYNC;SUPPORTS_SERIALISATION;SUPPORTS_TASKDELAY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Yort.Ntp.Net45.XML</DocumentationFile>
