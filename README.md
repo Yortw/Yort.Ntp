@@ -1,6 +1,8 @@
 #Yort.Ntp.Portable
 A cross platform NTP client library for .Net platforms. Allows you to easily retrieve an accurate, current date & time from internet NTP servers.
 
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://github.com/Yortw/Yort.Ntp) 
+
 ## Supported Platforms
 Currently;
 
@@ -20,7 +22,7 @@ Currently;
 ## Available on Nuget
 
 ```powershell
-    PM> Install-Package Yort.Ntp.Potrable
+    PM> Install-Package Yort.Ntp.Portable
 ```
 
 [![NuGet Status](http://img.shields.io/nuget/v/Yort.Ntp.Portable.svg?style=flat)](https://www.nuget.org/packages/Yort.Ntp.Portable)
