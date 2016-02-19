@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Yort.Ntp.Portable</id>
-    <version>1.0.2</version>
+    <version>1.0.5</version>
     <authors>Yortw</authors>
     <owners>Troy Willmot</owners>
 		<licenseUrl>https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md</licenseUrl>
@@ -18,21 +18,31 @@
 		<file src="src\Yort.Ntp.Android\bin\Release\Yort*.dll" target="lib\monoandroid" />
 		<file src="src\Yort.Ntp.Android\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\monoandroid" />
 		<file src="src\Yort.Ntp.Android\bin\Release\Yort*.pdb" target="lib\monoandroid" />
+
 		<file src="src\Yort.Ntp.iOS\bin\iPhone\Release\Yort*.dll" target="lib\Xamarin.iOS10" />
 		<file src="src\Yort.Ntp.iOS\bin\iPhone\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\Xamarin.iOS10" />
 		<file src="src\Yort.Ntp.iOS\bin\iPhone\Release\Yort*.pdb" target="lib\Xamarin.iOS10" />
+
 		<file src="src\Yort.Ntp.Net40\bin\Release\Yort*.dll" target="lib\net40" />
 		<file src="src\Yort.Ntp.Net40\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\net40" />
 		<file src="src\Yort.Ntp.Net40\bin\Release\Yort*.pdb" target="lib\net40" />
+
 		<file src="src\Yort.Ntp.Net45\bin\Release\Yort*.dll" target="lib\net45" />
 		<file src="src\Yort.Ntp.Net45\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\net45" />
 		<file src="src\Yort.Ntp.Net45\bin\Release\Yort*.pdb" target="lib\net45" />
+
 		<file src="src\Yort.Ntp.Portable\bin\Release\Yort*.dll" target="lib\portable-net45+win+wpa81+wp80" />
 		<file src="src\Yort.Ntp.Portable\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\portable-net45+win+wpa81+wp80" />
 		<file src="src\Yort.Ntp.Portable\bin\Release\Yort*.pdb" target="lib\portable-net45+win+wpa81+wp80" />
+
+		<file src="src\Yort.Ntp.Portable\bin\Release\Yort*.dll" target="lib\portable-net45+sl50+netcore45+wp8" />
+		<file src="src\Yort.Ntp.Portable\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\portable-net45+sl50+netcore45+wp8" />
+		<file src="src\Yort.Ntp.Portable\bin\Release\Yort*.pdb" target="lib\portable-net45+sl50+netcore45+wp8" />
+
 		<file src="src\Yort.Ntp.WPSL\Bin\Release\Yort*.dll" target="lib\wp81" />
 		<file src="src\Yort.Ntp.WPSL\Bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\wp81" />
 		<file src="src\Yort.Ntp.WPSL\Bin\Release\Yort*.pdb" target="lib\wp81" />
+
 		<file src="src\Yort.Ntp.WinRT\bin\Release\Yort*.dll" target="lib\netcore451" />
 		<file src="src\Yort.Ntp.WinRT\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\netcore451" />
 		<file src="src\Yort.Ntp.WinRT\bin\Release\Yort*.pdb" target="lib\netcore451" />
