@@ -12,6 +12,7 @@ namespace Yort.Ntp.Net40.Tests
 		private DateTime? _Result;
 
 		[TestMethod]
+		[TestCategory("NetworkRequiredTests")]
 		public void NtpClient_DefaultServer_GetsNonNullResponse()
 		{
 			_GotResultSignal = new System.Threading.AutoResetEvent(false);

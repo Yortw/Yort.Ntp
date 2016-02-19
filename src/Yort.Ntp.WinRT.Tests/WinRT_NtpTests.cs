@@ -15,6 +15,7 @@ namespace Yort.Ntp.WinRT.Tests
 		private System.Threading.Tasks.TaskCompletionSource<DateTime?> _GotTimeTaskCompletionSource;
 
 		[TestMethod]
+		[TestCategory("NetworkRequiredTests")]
 		public async Task WinRT_NtpClient_DefaultServer_GetsNonNullResponse()
 		{
 			var ntpClient = new Yort.Ntp.NtpClient();
@@ -36,11 +37,33 @@ namespace Yort.Ntp.WinRT.Tests
 		}
 
 		[TestMethod]
+		[TestCategory("NetworkRequiredTests")]
 		public async Task WinRT_NtpClient_DefaultServer_GetAsyncReturnsResponse()
 		{
 			var client = new Yort.Ntp.NtpClient();
 			var currentTime = await client.RequestTimeAsync();
 			Assert.AreNotEqual(DateTime.Now, currentTime);
+		}
+
+		[TestMethod]
+		public async Task WinRT_NtpClient_DefaultServer_ClientCanBeReused()
+		{
+			int successCount = 0;
+			var client = new Yort.Ntp.NtpClient();
+			for (int cnt = 0; cnt < 100; cnt++)
+			{
+				try
+				{
+					var currentTime = await client.RequestTimeAsync();
+					successCount++;
+					Assert.AreNotEqual(DateTime.Now, currentTime);
+					await Task.Delay(500);
+				}
+				catch (NtpNetworkException)
+				{
+				}
+			}
+			Assert.AreNotEqual(0, successCount);
 		}
 
 		private void NtpClient_ErrorOccurred(object sender, NtpNetworkErrorEventArgs e)
