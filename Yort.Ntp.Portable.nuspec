@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Yort.Ntp.Portable</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <authors>Yortw</authors>
     <owners>Troy Willmot</owners>
 		<licenseUrl>https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md</licenseUrl>

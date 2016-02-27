@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SUPPORTS_SERIALISATION;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SUPPORTS_SERIALISATION;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY;SUPPORTS_COMVISIBLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Yort.Ntp.XML</DocumentationFile>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SUPPORTS_SERIALISATION;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY</DefineConstants>
+    <DefineConstants>TRACE;SUPPORTS_SERIALISATION;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY;SUPPORTS_COMVISIBLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Yort.Ntp.XML</DocumentationFile>
