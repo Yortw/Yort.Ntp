@@ -7,8 +7,8 @@
     <ProjectGuid>{B0012C48-36AF-4D5D-980F-44BAC0313952}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yort.Ntp.Net45</RootNamespace>
-    <AssemblyName>Yort.Ntp.Net45</AssemblyName>
+    <RootNamespace>Yort.Ntp</RootNamespace>
+    <AssemblyName>Yort.Ntp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,7 +20,7 @@
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;CODE_ANALYSIS;SUPPORTS_TASKASYNC;SUPPORTS_SERIALISATION;SUPPORTS_TASKDELAY;SUPPORTS_COMVISIBLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Yort.Ntp.Net45.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Yort.Ntp.xml</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Yort.Ntp.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;CODE_ANALYSIS;SUPPORTS_TASKASYNC;SUPPORTS_SERIALISATION;SUPPORTS_TASKDELAY;SUPPORTS_COMVISIBLE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Yort.Ntp.Net45.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Yort.Ntp.xml</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Yort.Ntp.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

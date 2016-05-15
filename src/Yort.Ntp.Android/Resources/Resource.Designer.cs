@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("Yort.Ntp.Android.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("Yort.Ntp.Resource", IsApplication=false)]
 
-namespace Yort.Ntp.Android
+namespace Yort.Ntp
 {
 	
 	

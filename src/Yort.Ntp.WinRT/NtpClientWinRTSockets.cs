@@ -46,8 +46,8 @@ namespace Yort.Ntp
 				{
 					if (socket != null)
 					{
-						socket.MessageReceived -= this.Socket_Completed_Receive;
-						socket.Dispose();
+						ExecuteWithSuppressedExceptions(() => socket.MessageReceived -= this.Socket_Completed_Receive);
+						ExecuteWithSuppressedExceptions(() => socket.Dispose());
 					}
 				}
 				finally
@@ -66,7 +66,7 @@ namespace Yort.Ntp
 		{
 			try
 			{
-				sender.MessageReceived -= this.Socket_Completed_Receive;
+				ExecuteWithSuppressedExceptions(() => sender.MessageReceived -= this.Socket_Completed_Receive);
 
 				byte[] buffer = null;
 				using (var reader = args.GetDataReader())
@@ -86,6 +86,16 @@ namespace Yort.Ntp
 		private static NtpNetworkException ExceptionToNtpNetworkException(Exception ex)
 		{
 			return new NtpNetworkException(ex.Message, (int)SocketError.GetStatus(ex.HResult), ex);
+		}
+
+		private void ExecuteWithSuppressedExceptions(Action work)
+		{
+			try
+			{
+				work();
+			}
+			catch (OutOfMemoryException) { throw; }
+			catch { }
 		}
 
 		#region Private Classes
