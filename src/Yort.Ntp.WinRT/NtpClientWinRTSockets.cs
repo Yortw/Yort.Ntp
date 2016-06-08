@@ -88,17 +88,6 @@ namespace Yort.Ntp
 			return new NtpNetworkException(ex.Message, (int)SocketError.GetStatus(ex.HResult), ex);
 		}
 
-		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
-		private static void ExecuteWithSuppressedExceptions(Action work)
-		{
-			try
-			{
-				work();
-			}
-			catch (OutOfMemoryException) { throw; }
-			catch { }
-		}
-
 		#region Private Classes
 
 		private sealed class AsyncUdpResult : IDisposable

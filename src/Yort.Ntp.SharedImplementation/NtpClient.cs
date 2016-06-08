@@ -156,7 +156,10 @@ namespace Yort.Ntp
 		/// <seealso cref="TimeReceived"/>
 		protected void OnTimeReceived(DateTime time)
 		{
-			TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(time));
+			ExecuteWithSuppressedExceptions(() =>
+			{
+				TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(time));
+			});
 		}
 
 		/// <summary>
@@ -168,19 +171,19 @@ namespace Yort.Ntp
 		/// <param name="exception">A <see cref="System.Exception"/> derived instance describing the error.</param>
 		protected virtual void OnErrorOccurred(Exception exception)
 		{
-			ErrorOccurred?.Invoke(this, new NtpNetworkErrorEventArgs(exception));
+			ExecuteWithSuppressedExceptions(() =>
+			{
+				ErrorOccurred?.Invoke(this, new NtpNetworkErrorEventArgs(exception));
+			});
 		}
 
 		#endregion
 
 		#region Private/Partial Methods
 
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
 		partial void SendTimeRequest();
-
-		#endregion
-
-		#region Event Handlers
 
 		private void ConvertBufferToCurrentTime(byte[] buffer)
 		{
@@ -201,6 +204,23 @@ namespace Yort.Ntp
 			var currentTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) + timeSpan;
 
 			OnTimeReceived(currentTime);
+		}
+
+		/// <summary>
+		/// Executes a delegate and suppresses any non-fatal exceptions thrown.
+		/// </summary>
+		/// <param name="work"></param>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+		protected static void ExecuteWithSuppressedExceptions(Action work)
+		{
+			if (work == null) throw new ArgumentNullException(nameof(work));
+
+			try
+			{
+				work();
+			}
+			catch (OutOfMemoryException) { throw; }
+			catch { }
 		}
 
 		#endregion

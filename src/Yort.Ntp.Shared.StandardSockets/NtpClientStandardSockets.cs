@@ -11,43 +11,54 @@ namespace Yort.Ntp
 	{
 		partial void SendTimeRequest()
 		{
-			byte[] buffer = new byte[48];
-			buffer[0] = 0x1B;
-
-			DnsEndPoint _endPoint = new DnsEndPoint(_ServerAddress, 123, AddressFamily.InterNetwork);
-			Socket socket = null;
-			var socketArgs = new SocketAsyncEventArgs() { RemoteEndPoint = _endPoint };
 			try
 			{
-				socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+				byte[] buffer = new byte[48];
+				buffer[0] = 0x1B;
 
+				DnsEndPoint _endPoint = new DnsEndPoint(_ServerAddress, 123, AddressFamily.InterNetwork);
+				Socket socket = null;
+				var socketArgs = new SocketAsyncEventArgs() { RemoteEndPoint = _endPoint };
 				try
 				{
-					socketArgs.Completed += Socket_Completed_SendAgain;
-					//TFW - For some reason 'ConnectAsync' reports an error
-					//desktop .Net 4, but 'Connect' works fine. On WP
-					//only ConnectAsync is available, and it appears to work.
+					socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+					try
+					{
+						socketArgs.Completed += Socket_Completed_SendAgain;
+						//TFW - For some reason 'ConnectAsync' reports an error
+						//desktop .Net 4, but 'Connect' works fine. On WP
+						//only ConnectAsync is available, and it appears to work.
 #if USE_CONNECTASYNC
 					socketArgs.SetBuffer(buffer, 0, buffer.Length);
 					if (!socket.ConnectAsync(socketArgs))
 						Socket_Completed_SendAgain(socket, socketArgs);
 #else
-					socket.Connect(socketArgs.RemoteEndPoint);
-					socketArgs.SetBuffer(buffer, 0, buffer.Length);
-					if (!socket.SendAsync(socketArgs))
-						Socket_Completed_SendAgain(socket, socketArgs);
+						socket.Connect(socketArgs.RemoteEndPoint);
+						socketArgs.SetBuffer(buffer, 0, buffer.Length);
+						if (!socket.SendAsync(socketArgs))
+							Socket_Completed_SendAgain(socket, socketArgs);
 #endif
+					}
+					catch
+					{
+						socketArgs.Completed -= this.Socket_Completed_SendAgain;
+						throw;
+					}
 				}
 				catch
 				{
-					socketArgs.Completed -= this.Socket_Completed_SendAgain;
+					socket?.Dispose();
 					throw;
 				}
 			}
-			catch
+			catch (SocketException se)
 			{
-				socket?.Dispose();
-				throw;
+				OnErrorOccurred(new NtpNetworkException(se.Message, (int)se.SocketErrorCode, se));
+			}
+			catch (Exception ex)
+			{
+				OnErrorOccurred(new NtpNetworkException(ex.Message, -1, ex));
 			}
 		}
 
