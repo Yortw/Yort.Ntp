@@ -45,5 +45,26 @@ namespace Yort.Ntp
 		/// The server address; time-a.nist.gov
 		/// </summary>
 		public const string TimeANist = "time-a.nist.gov";
+
+		/// <summary>
+		/// The server address; 0.nz.pool.ntp.org
+		/// </summary>
+		public const string NZPool0 = "0.nz.pool.ntp.org";
+
+		/// <summary>
+		/// The server address; 1.nz.pool.ntp.org
+		/// </summary>
+		public const string NZPool1 = "1.nz.pool.ntp.org";
+
+		/// <summary>
+		/// The server address; 2.nz.pool.ntp.org
+		/// </summary>
+		public const string NZPool2 = "2.nz.pool.ntp.org";
+
+		/// <summary>
+		/// The server address; 3.nz.pool.ntp.org
+		/// </summary>
+		public const string NZPool3 = "3.nz.pool.ntp.org";
+
 	}
 }
