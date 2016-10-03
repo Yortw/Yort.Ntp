@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Yort.ntp by Yortw</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Yort.ntp</h1>
+        <h2>A cross platform NTP client library for .Net platforms. Allows you to easily retrieve an accurate, current date &amp; time from internet NTP servers.</h2>
+        <a href="https://github.com/Yortw/Yort.Ntp" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="yortntpportable" class="anchor" href="#yortntpportable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Yort.Ntp.Portable</h1>
+
+<p>A cross platform NTP client library for .Net platforms. Allows you to easily retrieve an accurate, current date &amp; time from internet NTP servers.</p>
+
+<p><a href="https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md"><img src="https://img.shields.io/github/license/mashape/apistatus.svg" alt="GitHub license"></a> </p>
+
+<h2>
+<a id="supported-platforms" class="anchor" href="#supported-platforms" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Platforms</h2>
+
+<p>Currently;</p>
+
+<ul>
+<li>.Net Framework 4.0+</li>
+<li>.Net Framework 4.5+ **</li>
+<li>Windows Phone Silverlight (8.1+) </li>
+<li>Xamarin.iOS **</li>
+<li>Xamarin.Android **</li>
+<li>WinRT (Windows Store Apps 8.1) **</li>
+<li>UWP 10+ (Windows 10 Universal Programs) **</li>
+</ul>
+
+<p>** Supports async/await</p>
+
+<h2>
+<a id="build-status" class="anchor" href="#build-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Build Status</h2>
+
+<p><a href="https://ci.appveyor.com/project/Yortw/yort-ntp"><img src="https://ci.appveyor.com/api/projects/status/ko6t4635hx6rllch?svg=true" alt="Build status"></a></p>
+
+<h2>
+<a id="available-on-nuget" class="anchor" href="#available-on-nuget" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Available on Nuget</h2>
+
+<div class="highlight highlight-source-powershell"><pre>    PM<span class="pl-k">&gt;</span> <span class="pl-c1">Install-Package</span> Yort.Ntp.Portable</pre></div>
+
+<p><a href="https://www.nuget.org/packages/Yort.Ntp.Portable/"><img src="https://buildstats.info/nuget/Yort.Ntp.Portable" alt="NuGet Badge"></a></p>
+
+<h2>
+<a id="samples" class="anchor" href="#samples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Samples</h2>
+
+<p>For platforms that support task based async;</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> client = <span class="pl-k">new</span> Yort.Ntp.NtpClient();
+<span class="pl-k">var</span> currentTime = <span class="pl-k">await</span> client.RequestTimeAsync();</pre></div>
+
+<p>For platforms that do not support async/await or tasks (or if you don't want to use async/await);</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> client = <span class="pl-k">new</span> Yort.Ntp.NtpClient();
+client.TimeReceived += Client_TimeReceived;
+client.ErrorOccurred += Client_ErrorOccurred;
+client.BeginRequestTime();
+
+<span class="pl-k">private</span> <span class="pl-k">void</span> Client_ErrorOccurred(<span class="pl-k">object</span> sender, NtpNetworkErrorEventArgs e)
+{
+    <span class="pl-c">//TODO: Handle errors here.</span>
+}
+
+<span class="pl-k">private</span> <span class="pl-k">void</span> Client_TimeReceived(<span class="pl-k">object</span> sender, NtpTimeReceivedEventArgs e)
+{
+    <span class="pl-c">//TODO: Use retrieved time here. Time is provided by e.CurrentTime.</span>
+    System.Diagnostics.Debug.WriteLine(e.CurrentTime);
+}
+</pre></div>
+
+<h2>
+<a id="attributions" class="anchor" href="#attributions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Attributions</h2>
+
+<p>The icon for this project is <a href="https://thenounproject.com/search/?q=computer+time&amp;i=87580">Computer Time by Arthur Shlain from the Noun Project</a> and is used under the <a href="http://creativecommons.org/licenses/by/3.0/us/">Creative Commons License</a>.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/Yortw/Yort.Ntp/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/Yortw/Yort.Ntp/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/Yortw/Yort.Ntp"></a> is maintained by <a href="https://github.com/Yortw">Yortw</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
