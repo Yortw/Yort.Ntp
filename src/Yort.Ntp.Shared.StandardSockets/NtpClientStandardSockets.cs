@@ -16,7 +16,17 @@ namespace Yort.Ntp
 				byte[] buffer = new byte[48];
 				buffer[0] = 0x1B;
 
-				DnsEndPoint _endPoint = new DnsEndPoint(_ServerAddress, 123, AddressFamily.InterNetwork);
+#if REQUIRES_IPENDPOINT
+				// Xamarin Android throws a NotSupported or NotImplemented exception when calling
+				// Socket.Connect using a DnsEndPoint instance, but is fine with IPAddress. So
+				// specifically for Android we'll do the DNS lookup on the name ourselves
+				// and then use the address we find into an IPEndpoint. If we were given an 
+				// IP anyway, ServerAddressToIPEndpoint, should detect that and just use it.
+				EndPoint _endPoint = ServerAddressToIPEndpoint(_ServerAddress, 123);
+#else
+				EndPoint _endPoint = new DnsEndPoint(_ServerAddress, 123, AddressFamily.InterNetwork);
+#endif
+
 				Socket socket = null;
 				var socketArgs = new SocketAsyncEventArgs() { RemoteEndPoint = _endPoint };
 				try
@@ -178,6 +188,21 @@ namespace Yort.Ntp
 				socket?.Dispose();
 			}
 		}
+
+#if REQUIRES_IPENDPOINT
+		private EndPoint ServerAddressToIPEndpoint(string serverAddress, int portNumber)
+		{
+			IPAddress ipAddress = null;
+			if (IPAddress.TryParse(serverAddress, out ipAddress))
+				return new IPEndPoint(ipAddress, portNumber);
+
+			var addresses = Dns.GetHostAddresses(serverAddress);
+
+			if (!(addresses?.Any() ?? false)) throw new NtpNetworkException("DNS failure for " + serverAddress);
+
+			return new IPEndPoint(addresses.First(), portNumber);
+		}
+#endif
 
 		private static NtpNetworkException NtpNetworkExceptionFromSocketArgs(SocketAsyncEventArgs e)
 		{

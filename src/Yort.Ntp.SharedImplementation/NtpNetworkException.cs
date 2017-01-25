@@ -71,6 +71,7 @@ namespace Yort.Ntp
 		/// </summary>
 		/// <param name="info">A <see cref="System.Runtime.Serialization.SerializationInfo"/> instance used to serialise the object.</param>
 		/// <param name="context">A <see cref="System.Runtime.Serialization.StreamingContext"/> instance used to serialise the object.</param>
+		[System.Security.SecurityCritical]
 		public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
 		{
 			if (info == null) throw new ArgumentNullException(nameof(info));
