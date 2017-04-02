@@ -38,7 +38,18 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Yort.Ntp.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Any CPU' ">
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>bin\Release\</OutputPath>
+		<DefineConstants>TRACE;SUPPORTS_COMVISIBLE;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<DocumentationFile>bin\Release\Yort.Ntp.NetStandard13.XML</DocumentationFile>
+		<RunCodeAnalysis>true</RunCodeAnalysis>
+		<CodeAnalysisRuleSet>..\Yort.Ntp.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+	<ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <None Include="project.json" />
   </ItemGroup>
