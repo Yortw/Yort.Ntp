@@ -142,7 +142,7 @@ namespace Yort.Ntp
 							{
 								var receiveComplete = (bool)(socketArgs.UserToken ?? false);
 								if (!receiveComplete)
-									socket?.Close();
+									socket?.Dispose();
 							}
 						);
 						if (!socket.ReceiveAsync(socketArgs))

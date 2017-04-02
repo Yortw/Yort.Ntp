@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Yort.Ntp.Portable</id>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <authors>Yortw</authors>
     <owners>Troy Willmot</owners>
 		<licenseUrl>https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md</licenseUrl>
@@ -10,7 +10,7 @@
 		<iconUrl>https://raw.githubusercontent.com/Yortw/Yort.Ntp/master/icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross platform NTP client for retrieving the current time from internet NTP servers.</description>
-    <releaseNotes>Fix for NotSupportedException on Android.</releaseNotes>
+    <releaseNotes>Support for .Net Standard 1.3/NetCore.</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>ntp windowsphone winrt uwp ios android xamarin date time wp net40 net45</tags>
   </metadata>
@@ -50,6 +50,10 @@
 		<file src="src\Yort.Ntp.WinRT\bin\Release\Yort*.dll" target="lib\wpa81" />
 		<file src="src\Yort.Ntp.WinRT\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\wpa81" />
 		<file src="src\Yort.Ntp.WinRT\bin\Release\Yort*.pdb" target="lib\wpa81" />
+
+		<file src="src\Yort.Ntp.NetStandard13\bin\Release\Yort*.dll" target="lib\netstandard1.3" />
+		<file src="src\Yort.Ntp.NetStandard13\bin\Release\Yort*.xml" exclude="**\*.codeanalysislog.xml" target="lib\netstandard1.3" />
+		<file src="src\Yort.Ntp.NetStandard13\bin\Release\Yort*.pdb" target="lib\netstandard1.3" />
 
 		<file src="src\**\*.cs" exclude="**\obj\**\*.*" target="src" />
 	</files>

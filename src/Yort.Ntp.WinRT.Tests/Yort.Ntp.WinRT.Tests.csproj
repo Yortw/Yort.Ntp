@@ -19,6 +19,7 @@
     <PackageCertificateKeyFile>Yort.Ntp.WinRT.Tests_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxBundle>Never</AppxBundle>
     <AllowCrossPlatformRetargeting>False</AllowCrossPlatformRetargeting>
+    <PackageCertificateThumbprint>C15384C253DF994BA4BE61D5C85861138F942EF7</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

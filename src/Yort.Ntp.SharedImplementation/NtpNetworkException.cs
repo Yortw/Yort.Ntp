@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
+#if SUPPORTS_SERIALISATION
+using System.Runtime.Serialization;
+#endif
 
 namespace Yort.Ntp
 {
@@ -51,7 +53,7 @@ namespace Yort.Ntp
 		/// <param name="inner">The original exception that is wrapped by this exception.</param>
 		public NtpNetworkException(string message, Exception inner) : base(message, inner) { }
 
-		#if SUPPORTS_SERIALISATION
+#if SUPPORTS_SERIALISATION
 		/// <summary>
 		/// Constructor required for serialisation purposes. Not recommended for direct use.
 		/// </summary>
