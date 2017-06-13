@@ -175,9 +175,7 @@ namespace Yort.Ntp
 				if (e.SocketError == SocketError.Success)
 					ConvertBufferToCurrentTime(e.Buffer);
 				else
-				{
 					OnErrorOccurred(NtpNetworkExceptionFromSocketArgs(e));
-				}
 			}
 			catch (Exception ex)
 			{
