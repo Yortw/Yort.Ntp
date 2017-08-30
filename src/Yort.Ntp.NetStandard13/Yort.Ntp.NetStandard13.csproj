@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yort.Ntp</RootNamespace>
-    <AssemblyName>Yort.Ntp.NetStandard13</AssemblyName>
+    <AssemblyName>Yort.Ntp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -34,7 +34,7 @@
     <DefineConstants>TRACE;SUPPORTS_COMVISIBLE;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Yort.Ntp.NetStandard13.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Yort.Ntp.xml</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>..\Yort.Ntp.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -45,7 +45,7 @@
 		<DefineConstants>TRACE;SUPPORTS_COMVISIBLE;SUPPORTS_TASKASYNC;SUPPORTS_TASKDELAY</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
-		<DocumentationFile>bin\Release\Yort.Ntp.NetStandard13.XML</DocumentationFile>
+		<DocumentationFile>bin\Release\Yort.Ntp.xml</DocumentationFile>
 		<RunCodeAnalysis>true</RunCodeAnalysis>
 		<CodeAnalysisRuleSet>..\Yort.Ntp.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
