@@ -173,7 +173,12 @@ namespace Yort.Ntp
 				socket = ((System.Net.Sockets.Socket)sender);
 
 				if (e.SocketError == SocketError.Success)
-					ConvertBufferToCurrentTime(e.Buffer);
+				{
+					if (e.BytesTransferred == 0)
+						OnErrorOccurred(new NtpNetworkException("No data received."));
+					else
+						ConvertBufferToCurrentTime(e.Buffer);
+				}
 				else
 					OnErrorOccurred(NtpNetworkExceptionFromSocketArgs(e));
 			}

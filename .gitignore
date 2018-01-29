@@ -212,3 +212,4 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 /src/Yort.Ntp.Android/Yort.Ntp.Android.csproj.bak
+/.nuget

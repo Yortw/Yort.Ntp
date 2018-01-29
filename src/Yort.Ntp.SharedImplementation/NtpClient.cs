@@ -15,6 +15,8 @@ namespace Yort.Ntp
 
 		private readonly string _ServerAddress;
 
+		private static readonly DateTime NtpEpoch = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
 		#endregion
 
 		#region Events
@@ -199,9 +201,14 @@ namespace Yort.Ntp
 			}
 
 			ulong milliseconds = (hTime * 1000 + (lTime * 1000) / 0x100000000L);
+			if (milliseconds == 0)
+			{
+				OnErrorOccurred(new NtpNetworkException("Incomplete or invalid data received."));
+				return;
+			}
 
-			var timeSpan = TimeSpan.FromTicks((long)milliseconds * TimeSpan.TicksPerMillisecond);
-			var currentTime = new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc) + timeSpan;
+			var timeSpan = TimeSpan.FromMilliseconds(milliseconds);
+			var currentTime = NtpEpoch + timeSpan;
 
 			OnTimeReceived(currentTime);
 		}
