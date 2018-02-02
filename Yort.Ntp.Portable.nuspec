@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Yort.Ntp.Portable</id>
-    <version>1.0.12</version>
+    <version>1.0.13</version>
     <authors>Yortw</authors>
     <owners>Troy Willmot</owners>
 		<licenseUrl>https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md</licenseUrl>
@@ -10,8 +10,8 @@
 		<iconUrl>https://raw.githubusercontent.com/Yortw/Yort.Ntp/master/icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross platform NTP client for retrieving the current time from internet NTP servers.</description>
-    <releaseNotes>Fix name for Net Standard assembly to match other platform assemblies to ensure bait and switch pattern works.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <releaseNotes>Improve error handling when an empty buffer is received without a socket error.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
     <tags>ntp windowsphone winrt uwp ios android xamarin date time wp net40 net45</tags>
   </metadata>
 	<files>
