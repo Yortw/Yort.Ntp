@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Yort.Ntp.XFSample"
+             x:Class="Yort.Ntp.XFSample.MainPage">
+
+	<ContentPage.BindingContext>
+		<local:MainViewModel />
+	</ContentPage.BindingContext>
+	
+	<StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+		<Button Command="{Binding SyncTimeCommand}" Text="Sync" />
+
+		<Label Text="Ntp Time"/>
+		<Label Text="{Binding NtpDateTime}" />
+		<Label Text="Offset"/>
+		<Label Text="{Binding Offset}" />
+		<Label Text="Error" />
+		<Label Text="{Binding LastError}" TextColor="Red" />
+
+	</StackLayout>
+
+</ContentPage>
