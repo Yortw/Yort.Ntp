@@ -193,7 +193,7 @@ namespace Yort.Ntp
 		}
 
 #if REQUIRES_IPENDPOINT
-		private EndPoint ServerAddressToIPEndpoint(string serverAddress, int portNumber)
+		private static EndPoint ServerAddressToIPEndpoint(string serverAddress, int portNumber)
 		{
 			IPAddress ipAddress = null;
 			if (IPAddress.TryParse(serverAddress, out ipAddress))
