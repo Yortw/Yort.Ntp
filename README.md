@@ -13,6 +13,7 @@ Currently;
 * Xamarin.Android **
 * WinRT (Windows Store Apps 8.1) **
 * UWP 10+ (Windows 10 Universal Programs) **
+* .Net Standard 1.3
 
 ** Supports async/await
 
