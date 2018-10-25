@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)NtpClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NtpNetworkErrorEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NtpNetworkException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RequestTimeResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TimeReceivedEventArgs.cs" />
   </ItemGroup>

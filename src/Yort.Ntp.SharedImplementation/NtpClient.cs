@@ -25,7 +25,7 @@ namespace Yort.Ntp
 		/// Raised when a new time is received from an NTP server.
 		/// </summary>
 		/// <seealso cref="NtpTimeReceivedEventArgs"/>
-		/// <seealso cref="OnTimeReceived(DateTime)"/>
+		/// <seealso cref="OnTimeReceived(DateTime, DateTime)"/>
 		public event EventHandler<NtpTimeReceivedEventArgs> TimeReceived;
 
 		/// <summary>
@@ -94,7 +94,7 @@ namespace Yort.Ntp
 		/// <para>This method may throw exceptions (most likely a <seealso cref="NtpNetworkException"/> if an error occurs trying to connect/bind to the network endpoint. Exception handling in client code is recommended.</para>
 		/// </remarks>
 		/// <seealso cref="NtpNetworkException"/>
-		/// <seealso cref="OnTimeReceived(DateTime)"/>
+		/// <seealso cref="OnTimeReceived(DateTime, DateTime)"/>
 		/// <seealso cref="OnErrorOccurred(Exception)"/>
 		public void BeginRequestTime()
 		{
@@ -109,15 +109,15 @@ namespace Yort.Ntp
 		/// <para>This method may throw exceptions (most likely a <seealso cref="NtpNetworkException"/> if an error occurs trying to connect/bind to the network endpoint. Exception handling in client code is recommended.</para>
 		/// </remarks>
 		/// <seealso cref="NtpNetworkException"/>
-		public System.Threading.Tasks.Task<DateTime> RequestTimeAsync()
+		public System.Threading.Tasks.Task<RequestTimeResult> RequestTimeAsync()
 		{
-			var tcs = new System.Threading.Tasks.TaskCompletionSource<DateTime>();
+			var tcs = new System.Threading.Tasks.TaskCompletionSource<RequestTimeResult>();
 			var client = new NtpClient(_ServerAddress);
 
 			var timeReceivedHandler = new EventHandler<NtpTimeReceivedEventArgs>(
 				(sender, args) => 
 				{
-					tcs.SetResult(args.CurrentTime);
+					tcs.SetResult(new RequestTimeResult(args.CurrentTime, args.SysTime));
 				}
 			);
 			var errorOccurredHandler = new EventHandler<NtpNetworkErrorEventArgs>(
@@ -155,12 +155,14 @@ namespace Yort.Ntp
 		/// <para>The time returned is a UTC time.</para>
 		/// </remarks>
 		/// <param name="time">The date and time received from the NTP server.</param>
-		/// <seealso cref="TimeReceived"/>
-		protected void OnTimeReceived(DateTime time)
+        /// <param name="ntpTime">The date and time received from the NTP server.</param>
+        /// <param name="sysTime">The date and time of the system upon reception.</param>
+        /// <seealso cref="TimeReceived"/>
+        protected void OnTimeReceived(DateTime ntpTime, DateTime sysTime)
 		{
 			ExecuteWithSuppressedExceptions(() =>
 			{
-				TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(time));
+				TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(ntpTime, sysTime));
 			});
 		}
 
@@ -210,7 +212,7 @@ namespace Yort.Ntp
 			var timeSpan = TimeSpan.FromMilliseconds(milliseconds);
 			var currentTime = NtpEpoch + timeSpan;
 
-			OnTimeReceived(currentTime);
+			OnTimeReceived(currentTime, DateTime.UtcNow);
 		}
 
 		/// <summary>
