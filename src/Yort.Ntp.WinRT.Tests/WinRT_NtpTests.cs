@@ -41,7 +41,7 @@ namespace Yort.Ntp.WinRT.Tests
 		public async Task WinRT_NtpClient_DefaultServer_GetAsyncReturnsResponse()
 		{
 			var client = new Yort.Ntp.NtpClient();
-			var result = await client.RequestTimeAsync();
+			var result = await client.RequestTimeResultAsync();
 
 			Assert.AreNotEqual(DateTime.Now, result.NtpTime);
 			Assert.AreEqual(DateTimeKind.Utc, result.ReceivedAt.Kind);
@@ -56,7 +56,7 @@ namespace Yort.Ntp.WinRT.Tests
 			{
 				try
 				{
-					var result = await client.RequestTimeAsync();
+					var result = await client.RequestTimeResultAsync();
 					successCount++;
 					Assert.AreNotEqual(DateTime.Now, result.NtpTime);
 					await Task.Delay(500);
