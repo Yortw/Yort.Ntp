@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Yort.Ntp.Portable</id>
-    <version>1.0.14</version>
+    <version>2.0.0</version>
     <authors>Yortw</authors>
     <owners>Troy Willmot</owners>
 		<licenseUrl>https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md</licenseUrl>
@@ -10,7 +10,7 @@
 		<iconUrl>https://raw.githubusercontent.com/Yortw/Yort.Ntp/master/icon.png</iconUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A cross platform NTP client for retrieving the current time from internet NTP servers.</description>
-    <releaseNotes>Improve error handling when an empty buffer is received without a socket error.</releaseNotes>
+    <releaseNotes>Now return local system time (UTC) at the moment of reception, allowing tighter calculation of time offset between NTP server and local system.</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>ntp windowsphone winrt uwp ios android xamarin date time wp net40 net45</tags>
   </metadata>
