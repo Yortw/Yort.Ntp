@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace Yort.Ntp.Net40.Tests
 {
@@ -70,5 +71,58 @@ namespace Yort.Ntp.Net40.Tests
 			_Result = e.CurrentTime;
 			_GotResultSignal.Set();
 		}
-	}
+
+#if SUPPORTS_TASKASYNC
+        [TestMethod]
+        [TestCategory("NetworkRequiredTests")]
+        public void NtpClient_DefaultServer_AsyncRequest()
+        {
+            _GotResultSignal = new System.Threading.AutoResetEvent(false);
+
+            Task.Run(async () => 
+            {
+                try
+                {
+                    var client = new Yort.Ntp.NtpClient();
+
+                    _Result = await client.RequestTimeAsync();
+                    _GotResultSignal.Set();
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail(e.Message);
+                }
+            });
+
+            _GotResultSignal.WaitOne(1000);
+            Assert.IsNotNull(_Result);
+        }
+
+        [TestMethod]
+        [TestCategory("NetworkRequiredTests")]
+        public void NtpClient_DefaultServer_AsyncRequestResult()
+        {
+            _GotResultSignal = new System.Threading.AutoResetEvent(false);
+
+            Task.Run(async () =>
+            {
+                try
+                {
+                    var client = new Yort.Ntp.NtpClient();
+
+                    RequestTimeResult result = await client.RequestTimeResultAsync();
+                    _Result = result.NtpTime;
+                    _GotResultSignal.Set();
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail(e.Message);
+                }
+            });
+
+            _GotResultSignal.WaitOne(1000);
+            Assert.IsNotNull(_Result);
+        }
+#endif
+    }
 }
