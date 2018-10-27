@@ -154,11 +154,10 @@ namespace Yort.Ntp
 		/// <para>This event may be raised on a different thread than called the <see cref="BeginRequestTime"/> method. If the event handler refers to UI, COM or other components that require thread affinity then dispatched invoke may be required.</para>
 		/// <para>The time returned is a UTC time.</para>
 		/// </remarks>
-		/// <param name="time">The date and time received from the NTP server.</param>
-        /// <param name="ntpTime">The date and time received from the NTP server.</param>
-        /// <param name="sysTime">The date and time of the system upon reception.</param>
-        /// <seealso cref="TimeReceived"/>
-        protected void OnTimeReceived(DateTime ntpTime, DateTime sysTime)
+		/// <param name="ntpTime">The date and time received from the NTP server.</param>
+		/// <param name="sysTime">The (UTC) date and time of the system upon reception.</param>
+		/// <seealso cref="TimeReceived"/>
+		protected void OnTimeReceived(DateTime ntpTime, DateTime sysTime)
 		{
 			ExecuteWithSuppressedExceptions(() =>
 			{
