@@ -19,7 +19,7 @@ namespace Yort.Ntp
         /// <summary>
         /// Time (UTC) of system at reception.
         /// </summary>
-        public DateTime SystemTime { get; }
+        public DateTime ReceivedAt { get; }
 
         /// <summary>
         /// Constructs a RequestTimeResult value.
@@ -27,11 +27,11 @@ namespace Yort.Ntp
         /// <remarks>
         /// </remarks>
         /// <param name="ntpTime">The date and time received from the NTP server.</param>
-        /// <param name="sysTime">The (UTC) date and time of the system upon reception.</param>
-        public RequestTimeResult(DateTime ntpTime, DateTime sysTime)
+        /// <param name="receivedAt">The (UTC) date and time of the system upon reception.</param>
+        public RequestTimeResult(DateTime ntpTime, DateTime receivedAt)
         {
             NtpTime = ntpTime;
-            SystemTime = sysTime;
+            ReceivedAt = receivedAt;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Yort.Ntp
         /// <param name="other">The other object to compare against.</param>
         public bool Equals(RequestTimeResult other)
         {
-            return (NtpTime == other.NtpTime && SystemTime == other.SystemTime);
+            return (NtpTime == other.NtpTime && ReceivedAt == other.ReceivedAt);
         }
 
         /// <summary>

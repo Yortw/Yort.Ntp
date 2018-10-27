@@ -117,7 +117,7 @@ namespace Yort.Ntp
 			var timeReceivedHandler = new EventHandler<NtpTimeReceivedEventArgs>(
 				(sender, args) => 
 				{
-					tcs.SetResult(new RequestTimeResult(args.CurrentTime, args.SysTime));
+					tcs.SetResult(new RequestTimeResult(args.CurrentTime, args.ReceivedAt));
 				}
 			);
 			var errorOccurredHandler = new EventHandler<NtpNetworkErrorEventArgs>(
@@ -155,13 +155,13 @@ namespace Yort.Ntp
 		/// <para>The time returned is a UTC time.</para>
 		/// </remarks>
 		/// <param name="ntpTime">The date and time received from the NTP server.</param>
-		/// <param name="sysTime">The (UTC) date and time of the system upon reception.</param>
+		/// <param name="receivedAt">The (UTC) date and time of the system upon reception.</param>
 		/// <seealso cref="TimeReceived"/>
-		protected void OnTimeReceived(DateTime ntpTime, DateTime sysTime)
+		protected void OnTimeReceived(DateTime ntpTime, DateTime receivedAt)
 		{
 			ExecuteWithSuppressedExceptions(() =>
 			{
-				TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(ntpTime, sysTime));
+				TimeReceived?.Invoke(this, new NtpTimeReceivedEventArgs(ntpTime, receivedAt));
 			});
 		}
 

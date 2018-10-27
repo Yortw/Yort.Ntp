@@ -12,17 +12,17 @@ namespace Yort.Ntp
 	public class NtpTimeReceivedEventArgs : EventArgs
 	{
 		private readonly DateTime _CurrentTime;
-		private readonly DateTime _SysTime;
+		private readonly DateTime _ReceivedAt;
 
 		/// <summary>
 		/// Full constructor.
 		/// </summary>
 		/// <param name="currentTime">The date and time just received from the NTP server.</param>
-		/// <param name="sysTime">The date and time of the local system at reception.</param>
-		public NtpTimeReceivedEventArgs(DateTime currentTime, DateTime sysTime)
+		/// <param name="receivedAt">The (UTC) date and time of the local system at reception.</param>
+		public NtpTimeReceivedEventArgs(DateTime currentTime, DateTime receivedAt)
 		{
 			_CurrentTime = currentTime;
-			_SysTime = sysTime;
+			_ReceivedAt = receivedAt;
 		}
 
 		/// <summary>
@@ -39,11 +39,11 @@ namespace Yort.Ntp
 		/// <summary>
 		/// Returns the (UTC) time of the local system as at the moment <see cref="CurrentTime"/> was received from the NTP server.
 		/// </summary>
-		public DateTime SysTime
+		public DateTime ReceivedAt
 		{
 			get
 			{
-				return _SysTime;
+				return _ReceivedAt;
 			}
 		}
 	}
