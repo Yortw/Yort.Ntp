@@ -46,7 +46,7 @@ namespace Yort.Ntp.Net40.Tests
 				for (int cnt = 0; cnt < 60; cnt++)
 				{
 					client.BeginRequestTime();
-					_GotResultSignal.WaitOne(1000);
+					_GotResultSignal.WaitOne(2000);
 					Assert.IsNotNull(_Result);
 					Assert.AreNotEqual(ntpEpoch, _Result);
 				}
