@@ -1,4 +1,4 @@
-#Yort.Ntp.Portable
+# Yort.Ntp.Portable
 A cross platform NTP client library for .Net platforms. Allows you to easily retrieve an accurate, current date & time from internet NTP servers.
 
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/Yortw/Yort.Ntp/blob/master/LICENSE.md) 
@@ -13,6 +13,7 @@ Currently;
 * Xamarin.Android **
 * WinRT (Windows Store Apps 8.1) **
 * UWP 10+ (Windows 10 Universal Programs) **
+* .Net Standard 1.3
 
 ** Supports async/await
 
