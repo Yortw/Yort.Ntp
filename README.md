@@ -34,6 +34,12 @@ For platforms that support task based async;
 var client = new Yort.Ntp.NtpClient();
 var currentTime = await client.RequestTimeAsync();
 ```
+Or to calculate the system time offset
+```C#
+var client = new Yort.Ntp.NtpClient();
+var result = await client.RequestTimeResultAsync();
+TimeSpan offset = result.NtpTime - result.ReceivedAt;
+```
 
 For platforms that do not support async/await or tasks (or if you don't want to use async/await);
 
