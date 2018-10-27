@@ -103,13 +103,13 @@ namespace Yort.Ntp
 
 #if SUPPORTS_TASKASYNC
 		/// <summary>
-		/// Returns an awaitable task whose result is the current time from the NTP server specified in the constructor.
+		/// Returns an awaitable task whose result is the RequestTimeResult from the NTP server specified in the constructor.
 		/// </summary>
 		/// <remarks>
 		/// <para>This method may throw exceptions (most likely a <seealso cref="NtpNetworkException"/> if an error occurs trying to connect/bind to the network endpoint. Exception handling in client code is recommended.</para>
 		/// </remarks>
 		/// <seealso cref="NtpNetworkException"/>
-		public System.Threading.Tasks.Task<RequestTimeResult> RequestTimeAsync()
+		public System.Threading.Tasks.Task<RequestTimeResult> RequestTimeResultAsync()
 		{
 			var tcs = new System.Threading.Tasks.TaskCompletionSource<RequestTimeResult>();
 			var client = new NtpClient(_ServerAddress);
@@ -145,6 +145,48 @@ namespace Yort.Ntp
 			return retVal;
 		}
 
+		/// <summary>
+		/// Returns an awaitable task whose result is the current time from the NTP server specified in the constructor.
+		/// </summary>
+		/// <remarks>
+		/// <para>This method may throw exceptions (most likely a <seealso cref="NtpNetworkException"/> if an error occurs trying to connect/bind to the network endpoint. Exception handling in client code is recommended.</para>
+		/// </remarks>
+		/// <seealso cref="NtpNetworkException"/>
+		public System.Threading.Tasks.Task<DateTime> RequestTimeAsync()
+		{
+			var tcs = new System.Threading.Tasks.TaskCompletionSource<DateTime>();
+			var client = new NtpClient(_ServerAddress);
+
+			var timeReceivedHandler = new EventHandler<NtpTimeReceivedEventArgs>(
+				(sender, args) => 
+				{
+					tcs.SetResult(args.CurrentTime);
+				}
+			);
+			var errorOccurredHandler = new EventHandler<NtpNetworkErrorEventArgs>(
+				(sender, args) => 
+				{
+					if (!tcs.Task.IsCanceled && !tcs.Task.IsCompleted)
+						tcs.SetException(args.Exception);
+				}
+			);
+
+			client.TimeReceived += timeReceivedHandler;
+			client.ErrorOccurred += errorOccurredHandler;
+
+			var retVal = tcs.Task;
+			tcs.Task.ContinueWith(
+				(pt) =>
+				{
+					client.TimeReceived -= timeReceivedHandler;
+					client.ErrorOccurred -= errorOccurredHandler;
+				}
+			);
+
+			client.BeginRequestTime();
+
+			return retVal;
+		}
 #endif
 
 		/// <summary>
