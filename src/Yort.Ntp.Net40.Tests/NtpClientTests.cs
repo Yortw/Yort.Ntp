@@ -111,6 +111,8 @@ namespace Yort.Ntp.Net40.Tests
                     var client = new Yort.Ntp.NtpClient();
 
                     RequestTimeResult result = await client.RequestTimeResultAsync();
+        			Assert.AreNotEqual(DateTime.Now, result.NtpTime);
+			        Assert.AreEqual(DateTimeKind.Utc, result.ReceivedAt.Kind);
                     _Result = result.NtpTime;
                     _GotResultSignal.Set();
                 }
