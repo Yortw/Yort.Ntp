@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Yort.Ntp.Net40.Tests
 {
-	//TODO: Really need more and better tests, but not sure how or what.
-
 	[TestClass]
 	public class NtpClientTests
 	{

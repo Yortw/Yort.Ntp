@@ -1,0 +1,55 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/3.0.44">
+
+  <PropertyGroup>
+    <TargetFrameworks>net40;net45;net48;netstandard1.3;netstandard2.0;monoandroid9.0;xamarin.ios10;net8.0-android;net8.0-ios;uap10.0</TargetFrameworks>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Yort.Ntp</Title>
+    <Version>$(VersionPrefix)3.0.0-beta</Version>
+    <Authors>Yortw</Authors>
+    <Company>Yortw</Company>
+    <Description>A cross platform NTP client for retrieving the current time from internet NTP servers.</Description>
+    <Copyright>Copyright 2018</Copyright>
+    <PackageProjectUrl>https://github.com/Yortw/Yort.Ntp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Yortw/Yort.Ntp.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>ntp date time</PackageTags>
+    <PackageReleaseNotes>New major version:
+
+* Adds supports for modern platforms
+* Drops supports for older platforms such as Windows Phone</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+  </PropertyGroup>
+
+  <!-- Android -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-android')) != true">
+    <Compile Remove="**\*.Android.cs" />
+    <None Include="**\*.Android.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+
+  <!-- iOS -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net8.0-ios')) != true">
+    <Compile Remove="**\*.iOS.cs" />
+    <None Include="**\*.iOS.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+
+  <!-- Windows -->
+  <ItemGroup Condition="$(TargetFramework.Contains('-windows')) != true">
+    <Compile Remove="**\*.Windows.cs" />
+    <None Include="**\*.Windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition=" '$(TargetFramework)'!='netstandard1.3' AND '$(TargetFramework)'!='uap10.0' ">$(DefineConstants);SUPPORTS_SERIALISATION</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-android' ">$(DefineConstants);REQUIRES_IPENDPOINT</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'!='net40' ">$(DefineConstants);SUPPORTS_TASKDELAY</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'!='uap10.0' ">$(DefineConstants);USE_CONNECTASYNC</DefineConstants>
+  </PropertyGroup>
+
+</Project>

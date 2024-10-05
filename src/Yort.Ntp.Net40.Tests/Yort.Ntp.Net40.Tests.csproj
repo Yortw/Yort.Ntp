@@ -60,9 +60,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yort.Ntp.Net40\Yort.Ntp.Net40.csproj">
-      <Project>{94c3f078-b7ab-4fe5-9ca7-f213438ad417}</Project>
-      <Name>Yort.Ntp.Net40</Name>
+    <ProjectReference Include="..\Yort.Ntp\Yort.Ntp.csproj">
+      <Project>{bd987a93-72cd-4094-97a3-685efd836086}</Project>
+      <Name>Yort.Ntp</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
