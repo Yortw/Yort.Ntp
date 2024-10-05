@@ -9,12 +9,12 @@
 	</ContentPage.BindingContext>
 	
 	<StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-		<Button Command="{Binding SyncTimeCommand}" Text="Sync" />
+		<Button Command="{Binding SyncTimeCommand}" Text="Sync" />ple
 
 		<Label Text="Ntp Time"/>
-		<Label Text="{Binding NtpDateTime}" />
+		<Label Text="{Binding NtpDateTime}" TextColor="Black" />
 		<Label Text="Offset"/>
-		<Label Text="{Binding Offset}" />
+		<Label Text="{Binding Offset}" TextColor="Black" />
 		<Label Text="Error" />
 		<Label Text="{Binding LastError}" TextColor="Red" />
 
