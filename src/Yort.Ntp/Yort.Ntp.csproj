@@ -43,6 +43,16 @@
     <Compile Remove="**\*.Windows.cs" />
     <None Include="**\*.Windows.cs" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder)" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <PropertyGroup>
     <DefineConstants Condition=" '$(TargetFramework)'!='netstandard1.3' AND '$(TargetFramework)'!='uap10.0' ">$(DefineConstants);SUPPORTS_SERIALISATION</DefineConstants>
@@ -51,6 +61,8 @@
     <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'!='net40' ">$(DefineConstants);SUPPORTS_TASKDELAY</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='uap10.0' ">$(DefineConstants);USE_CONNECTASYNC</DefineConstants>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
 </Project>
