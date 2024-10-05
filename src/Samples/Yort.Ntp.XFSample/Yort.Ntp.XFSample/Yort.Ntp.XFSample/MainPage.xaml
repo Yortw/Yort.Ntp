@@ -9,7 +9,7 @@
 	</ContentPage.BindingContext>
 	
 	<StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
-		<Button Command="{Binding SyncTimeCommand}" Text="Sync" />ple
+		<Button Command="{Binding SyncTimeCommand}" Text="Sync" />
 
 		<Label Text="Ntp Time"/>
 		<Label Text="{Binding NtpDateTime}" TextColor="Black" />
