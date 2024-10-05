@@ -49,7 +49,7 @@
     <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-android' ">$(DefineConstants);REQUIRES_IPENDPOINT</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'!='net40' ">$(DefineConstants);SUPPORTS_TASKDELAY</DefineConstants>
-    <DefineConstants Condition=" '$(TargetFramework)'!='uap10.0' ">$(DefineConstants);USE_CONNECTASYNC</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='uap10.0' ">$(DefineConstants);USE_CONNECTASYNC</DefineConstants>
   </PropertyGroup>
 
 </Project>
