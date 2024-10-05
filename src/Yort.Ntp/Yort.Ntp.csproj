@@ -46,7 +46,8 @@
 
   <PropertyGroup>
     <DefineConstants Condition=" '$(TargetFramework)'!='netstandard1.3' AND '$(TargetFramework)'!='uap10.0' ">$(DefineConstants);SUPPORTS_SERIALISATION</DefineConstants>
-    <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-android' ">$(DefineConstants);REQUIRES_IPENDPOINT</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-android' ">$(DefineConstants);REQUIRES_IPENDPOINT;OBSOLETE_SERIALIZATION</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-ios' ">$(DefineConstants);OBSOLETE_SERIALIZATION</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'!='net40' ">$(DefineConstants);SUPPORTS_TASKDELAY</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='uap10.0' ">$(DefineConstants);USE_CONNECTASYNC</DefineConstants>
