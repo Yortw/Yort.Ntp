@@ -63,7 +63,7 @@
     <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-android' ">$(DefineConstants);REQUIRES_IPENDPOINT;OBSOLETE_SERIALIZATION</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-ios' ">$(DefineConstants);OBSOLETE_SERIALIZATION</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='net40' ">$(DefineConstants);</DefineConstants>
-    <DefineConstants Condition=" '$(TargetFramework)'!='net40' ">$(DefineConstants);SUPPORTS_TASKDELAY</DefineConstants>
+    <DefineConstants Condition=" '$(TargetFramework)'!='net40' ">$(DefineConstants);SUPPORTS_TASKDELAY;SUPPORTS_TASKASYNC</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='uap10.0' ">$(DefineConstants);USE_CONNECTASYNC</DefineConstants>
     <PackageIcon>icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
