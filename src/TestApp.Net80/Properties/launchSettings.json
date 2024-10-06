@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "TestApp.Net80": {
+      "commandName": "Project"
+    },
+    "WSL Debug (Output Window)": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "WSL2 Run Exe": {
+      "commandName": "Executable",
+      "executablePath": "wsl",
+      "commandLineArgs": "dotnet TestApp.Net80.dll"
+    }
+  }
+}
