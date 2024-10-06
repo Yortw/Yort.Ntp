@@ -6,7 +6,7 @@
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Yort.Ntp</Title>
-    <Version>$(VersionPrefix)3.0.0-beta</Version>
+    <Version>$(VersionPrefix)3.0.1-beta</Version>
     <Authors>Yortw</Authors>
     <Company>Yortw</Company>
     <Description>A cross platform NTP client for retrieving the current time from internet NTP servers.</Description>
@@ -18,7 +18,10 @@
     <PackageReleaseNotes>New major version:
 
 * Adds supports for modern platforms
-* Drops supports for older platforms such as Windows Phone</PackageReleaseNotes>
+* Drops supports for older platforms such as Windows Phone
+* Adds async method to additional platforms
+* Fixes a bug on linux
+</PackageReleaseNotes>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <IncludeSymbols>True</IncludeSymbols>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
