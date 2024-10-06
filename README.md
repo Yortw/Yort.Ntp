@@ -23,10 +23,10 @@ Currently;
 ## Available on Nuget
 
 ```powershell
-    PM> Install-Package Yort.Ntp.Portable
+    PM> Install-Package Yort.Ntp
 ```
 
-[![NuGet Badge](https://buildstats.info/nuget/Yort.Ntp.Portable)](https://www.nuget.org/packages/Yort.Ntp.Portable/)
+[![NuGet Badge](https://buildstats.info/nuget/Yort.Ntp)](https://www.nuget.org/packages/Yort.Ntp/)
 
 ## Samples
 For platforms that support task based async;
