@@ -18,23 +18,12 @@ namespace Yort.Ntp
 				var buffer = new byte[48];
 				buffer[0] = 0x1B;
 
-#if REQUIRES_IPENDPOINT
-				// Xamarin Android throws a NotSupported or NotImplemented exception when calling
-				// Socket.Connect using a DnsEndPoint instance, but is fine with IPAddress. So
-				// specifically for Android we'll do the DNS lookup on the name ourselves
-				// and then use the address we find into an IPEndpoint. If we were given an 
-				// IP anyway, ServerAddressToIPEndpoint, should detect that and just use it.
-				EndPoint _endPoint = ServerAddressToIPEndpoint(_ServerAddress, 123);
-#else
-				EndPoint _endPoint = new DnsEndPoint(_ServerAddress, 123, AddressFamily.InterNetwork);
-#endif
-
+				var endPoint = GetPlatformCompatibleEndpoint(_ServerAddress);
 				Socket? socket = null;
-				var socketArgs = new SocketAsyncEventArgs() { RemoteEndPoint = _endPoint };
+				var socketArgs = new SocketAsyncEventArgs() { RemoteEndPoint = endPoint };
 				try
 				{
 					socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
 					try
 					{
 						socketArgs.Completed += Socket_Completed_SendAgain;
@@ -72,6 +61,39 @@ namespace Yort.Ntp
 			{
 				OnErrorOccurred(new NtpNetworkException(ex.Message, -1, ex));
 			}
+		}
+
+		private static EndPoint GetPlatformCompatibleEndpoint(string serverAddress)
+		{
+#if NET8_0_OR_GREATER
+			if (IPEndPoint.TryParse(serverAddress, out var endPoint)) //If we were given an IP address instead of host name, use an IPEndpoint
+				return endPoint;
+#endif
+
+#if REQUIRES_IPENDPOINT //For platforms where we compile for that platform and know DnsEndPoint isn't supported, fall straight back to IPEndpoint.
+				// Xamarin Android throws a NotSupported or NotImplemented exception when calling
+				// Socket.Connect using a DnsEndPoint instance, but is fine with IPAddress. So
+				// specifically for Android we'll do the DNS lookup on the name ourselves
+				// and then use the address we find into an IPEndpoint. If we were given an 
+				// IP anyway, ServerAddressToIPEndpoint, should detect that and just use it.
+				return ServerAddressToIPEndpoint(serverAddress, 123);
+#else
+			if (_ForceIPEndpoint) //If we've previously determined we don't support DnsEndPoint, convert to IPEndpoint
+				return ServerAddressToIPEndpoint(serverAddress, 123);
+
+
+			EndPoint retVal = new DnsEndPoint(serverAddress, 123, AddressFamily.InterNetwork); //Try DnsEndPoint, let the plaform/OS do the DNS resolution in case it's smarter than us.
+			try
+			{
+				var sa = retVal.Serialize(); // Check DnsEndPoint will actually work on this platform (linux for example, doesn't)
+			}
+			catch (Exception ex) when (ex is System.NotSupportedException || ex is System.NotImplementedException)
+			{
+				_ForceIPEndpoint = true; // Set this for next time
+				retVal = ServerAddressToIPEndpoint(serverAddress, 123);
+			}
+			return retVal;
+#endif
 		}
 
 		private void Socket_Completed_SendAgain(object? sender, SocketAsyncEventArgs e)
@@ -197,19 +219,21 @@ namespace Yort.Ntp
 			}
 		}
 
-#if REQUIRES_IPENDPOINT
 		private static IPEndPoint ServerAddressToIPEndpoint(string serverAddress, int portNumber)
 		{
 			if (IPAddress.TryParse(serverAddress, out var ipAddress))
 				return new IPEndPoint(ipAddress, portNumber);
 
-			var addresses = Dns.GetHostAddresses(serverAddress);
+#if NETSTANDARD1_3 || UAP10_0
+			var addresses = System.Net.Dns.GetHostAddressesAsync(serverAddress).ConfigureAwait(false).GetAwaiter().GetResult();
+#else
+			var addresses = System.Net.Dns.GetHostAddresses(serverAddress);
+#endif
 
-			if (!((addresses?.Length ?? 0) == 0)) throw new NtpNetworkException("DNS failure for " + serverAddress);
+			if ((addresses?.Length ?? 0) == 0) throw new NtpNetworkException("DNS failure for " + serverAddress);
 
 			return new IPEndPoint(addresses!.First(), portNumber);
 		}
-#endif
 
 		private static NtpNetworkException NtpNetworkExceptionFromSocketArgs(SocketAsyncEventArgs e)
 		{

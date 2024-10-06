@@ -54,6 +54,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup Condition="$(TargetFramework) == 'netstandard1.3'">
+    <PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <DefineConstants Condition=" '$(TargetFramework)'!='netstandard1.3' AND '$(TargetFramework)'!='uap10.0' ">$(DefineConstants);SUPPORTS_SERIALISATION</DefineConstants>
     <DefineConstants Condition=" '$(TargetFramework)'=='net8.0-android' ">$(DefineConstants);REQUIRES_IPENDPOINT;OBSOLETE_SERIALIZATION</DefineConstants>

@@ -15,6 +15,7 @@ namespace Yort.Ntp
 
 		private readonly string _ServerAddress;
 
+		private static bool _ForceIPEndpoint;
 		private static readonly DateTime NtpEpoch = new (1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		#endregion
